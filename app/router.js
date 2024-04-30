@@ -1,22 +1,7 @@
 import logger from "node-color-log";
-import { postFile, getPhoto, getPhotos, deletePhoto, putPhoto } from "./controllers/fileController.js";
+import { postFile, getPhoto, getPhotos, deletePhoto, putPhoto } from "./controllers/file_controller.js";
+import { error_404, error_400 } from "./utils/router_utils.js";
 
-function error_404(response) {
-    response.statusCode = 404;
-    response.headers = { "Content-Type": "application/json" };
-    response.end("{status: 'error', message: 'Not found'}");
-}
-
-function error_400(response) {
-    response.statusCode = 400;
-    response.headers = { "Content-Type": "application/json" };
-    response.end("{status: 'error', message: 'Bad request'}");
-}
-
-function ok_200(response) {
-    response.statusCode = 200;
-    response.headers = { "Content-Type": "application/json" };
-}
 
 export default (request, response) => {
     if (request.method == "GET") {

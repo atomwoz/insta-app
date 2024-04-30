@@ -1,3 +1,10 @@
-export default function (req, res) {
+export default function (request, response) {
+    if(request.method == "GET")
+    {
 
+    }
+    else
+    {
+        
+    }
 }
