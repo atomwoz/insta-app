@@ -1,5 +1,5 @@
 import logger from "node-color-log";
-import { postFile, getPhoto, getPhotos, deletePhoto } from "./fileController.js";
+import { postFile, getPhoto, getPhotos, deletePhoto, putPhoto } from "./controllers/fileController.js";
 
 function error_404(response) {
     response.statusCode = 404;
@@ -25,8 +25,11 @@ export default (request, response) => {
             const album_name = url.searchParams.get("album");
             getPhotos(request, response, album_name);
         }
-        else if (request.url.startsWith("/api/photos/")) {
-            getPhoto(request, response);
+        else if (request.url.startsWith("/api/photo?id=")) {
+            const url = new URL(request.url, `http://${request.headers.host}`);
+            const id = url.searchParams.get("id");
+            logger.color("blue").log(`GET /api/photo?id=${id}`);
+            getPhoto(request, response, id);
         }
         else {
             error_404(response)
@@ -43,10 +46,26 @@ export default (request, response) => {
         }
     }
     else if (request.method == "PUT") {
-    }
-    else if (request.method == "PATCH") {
+        if (request.url.startsWith("/api/photo?id=")) {
+            const url = new URL(request.url, `http://${request.headers.host}`);
+            const id = url.searchParams.get("id");
+            logger.color("blue").log(`PUT /api/photo?id=${id}`);
+            putPhoto(request, response, id);
+        }
+        else {
+            error_404(response)
+        }
     }
     else if (request.method == "DELETE") {
+        if (request.url.startsWith("/api/photo?id=")) {
+            const url = new URL(request.url, `http://${request.headers.host}`);
+            const id = url.searchParams.get("id");
+            logger.color("blue").log(`DELETE /api/photo?id=${id}`);
+            deletePhoto(request, response, id);
+        }
+        else {
+            error_404(response)
+        }
     }
     else {
         error_400(response)
