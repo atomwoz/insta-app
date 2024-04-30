@@ -1,5 +1,5 @@
 import logger from "node-color-log";
-import { postFile } from "./fileController.js";
+import { postFile, getPhoto, getPhotos, deletePhoto } from "./fileController.js";
 
 function error_404(response) {
     response.statusCode = 404;
@@ -20,13 +20,13 @@ function ok_200(response) {
 
 export default (request, response) => {
     if (request.method == "GET") {
-        if (request.url == "/api/photos") {
-            ok_200(response);
-            response.end("Strona główna");
+        if (request.url.startsWith("/api/photos?album=")) {
+            const url = new URL(request.url, `http://${request.headers.host}`);
+            const album_name = url.searchParams.get("album");
+            getPhotos(request, response, album_name);
         }
         else if (request.url.startsWith("/api/photos/")) {
-            ok_200(response);
-            response.end("Strona zdjęcia");
+            getPhoto(request, response);
         }
         else {
             error_404(response)
@@ -34,7 +34,7 @@ export default (request, response) => {
     }
     else if (request.method == "POST") {
         switch (request.url) {
-            case "/api/photos":+
+            case "/api/photos": +
                 logger.color("blue").log("POST /api/photos");
                 postFile(request, response);
                 break;

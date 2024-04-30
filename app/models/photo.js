@@ -23,8 +23,8 @@ const editPhoto = (id, editHistory) => {
     if (photo) {
         photo.album = album;
         photo.originalName = originalName;
-        photo.editHistory.push(editHistory);
-        photo.lastChange = photo.editHistory.sort((a, b) => a.timestamp - b.timestamp)[0];
+        photo.editHistory.push({ album, originalName, timestamp: new Date().getTime() });
+        photo.lastChange = photo.editHistory[photo.editHistory.length - 1].timestamp;
         return photo;
     }
 
