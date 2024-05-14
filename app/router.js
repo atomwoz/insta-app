@@ -1,10 +1,14 @@
 import logger from "node-color-log";
 import { postFile, getPhoto, getPhotos, deletePhoto, putPhoto } from "./controllers/file_controller.js";
 import { error_404, error_400 } from "./utils/router_utils.js";
+import tag_router from "./router_modules/tag_router.js";
 
 
 export default (request, response) => {
-    if (request.method == "GET") {
+    if (request.url.startsWith('/api/tags')) {
+        tag_router(request, response);
+    }
+    else if (request.method == "GET") {
         if (request.url.startsWith("/api/photos?album=")) {
             const url = new URL(request.url, `http://${request.headers.host}`);
             const album_name = url.searchParams.get("album");
@@ -55,5 +59,7 @@ export default (request, response) => {
     else {
         error_400(response)
     }
+
+
 
 }
