@@ -2,11 +2,18 @@ import logger from "node-color-log";
 import { postFile, getPhoto, getPhotos, deletePhoto, putPhoto } from "./controllers/file_controller.js";
 import { error_404, error_400 } from "./utils/router_utils.js";
 import tag_router from "./router_modules/tag_router.js";
-
+import filter_router from "./router_modules/filter_router.js";
+import static_router from "./router_modules/static_router.js";
 
 export default (request, response) => {
     if (request.url.startsWith('/api/tags')) {
         tag_router(request, response);
+    }
+    else if (request.url.startsWith('/api/filter')) {
+        filter_router(request, response);
+    }
+    else if (request.url.startsWith('/static')) {
+        static_router(request, response)
     }
     else if (request.method == "GET") {
         if (request.url.startsWith("/api/photos?album=")) {
@@ -56,9 +63,7 @@ export default (request, response) => {
             error_404(response)
         }
     }
-    else {
-        error_400(response)
-    }
+
 
 
 

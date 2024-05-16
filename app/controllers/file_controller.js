@@ -20,10 +20,10 @@ export function postFile(req, res) {
         const file = files.file;
         const albumName = fields.album;
         // Save the file to a desired location
-        const filePath = pwd() + "\\upload_bucket\\" + file.name;
+        const id = addPhoto(albumName, file.name);
+        const filePath = pwd() + "\\upload_bucket\\" + id;
         logger.color("blue").log("Saving file to: " + filePath);
         logger.color("blue").log("Album name: " + albumName);
-        const id = addPhoto(albumName, file.name);
         fs.rename(file.path, filePath, (err) => {
             if (err) {
                 res.statusCode = 500;

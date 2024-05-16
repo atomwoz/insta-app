@@ -20,12 +20,12 @@ const addPhoto = (album, originalName, tags = []) => {
 const removePhoto = (id) => {
     photoes = photoes.filter(photo => photo.id !== id);
 }
-const editPhoto = (id, editHistory, album = undefined, originalName = undefined) => {
+const editPhoto = (id, editData, album = undefined, originalName = undefined) => {
     const photo = photoes.find(photo => photo.id === id);
     if (photo) {
         if (album) photo.album = album;
         if (originalName) photo.originalName = originalName;
-        photo.editHistory.push({ album, originalName, timestamp: new Date().getTime() });
+        photo.editHistory.push({ album, originalName, timestamp: new Date().getTime(), editData });
         photo.lastChange = photo.editHistory[photo.editHistory.length - 1].timestamp;
         return photo;
     }
