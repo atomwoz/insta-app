@@ -1,1 +1,1 @@
-GET http://localhost:3000/api/photo?id=a82867c6-9dd0-4d87-8130-1487cb44c684 HTTP/1.1
+GET http://localhost:3000/api/photo?id=2101806e-c630-4a1c-a888-35503833c801 HTTP/1.1

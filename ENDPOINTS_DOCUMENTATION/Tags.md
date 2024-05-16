@@ -14,7 +14,7 @@ Returns a JSON array of all tags.
 
 ## GET /api/tags
 
-Returns the first N tags.
+Returns all system tags.
 
 ### Request
 
@@ -59,3 +59,15 @@ Updates the tags of a photo.
 ### Response
 
 Returns a JSON object of the updated photo.
+
+## GET /api/tags/photo?id={photoId}
+
+Fetches all tags associated with a specific photo.
+
+### Request
+
+- photoId: The ID of the photo.
+
+### Response
+
+Returns a JSON array of tags associated with the specified photo.

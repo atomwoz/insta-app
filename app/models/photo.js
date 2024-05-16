@@ -25,10 +25,12 @@ const editPhoto = (id, editHistory, album = undefined, originalName = undefined)
     if (photo) {
         if (album) photo.album = album;
         if (originalName) photo.originalName = originalName;
-        logger.color("yellow").log(typeof photo.editHistory, photo.editHistory);
         photo.editHistory.push({ album, originalName, timestamp: new Date().getTime() });
         photo.lastChange = photo.editHistory[photo.editHistory.length - 1].timestamp;
         return photo;
+    }
+    else {
+        throw new Error("Photo not found");
     }
 
 }
@@ -45,7 +47,7 @@ const addTags = (id, tags) => {
         photo.tags = photo.tags.concat(tags);
     }
     else {
-        logger.color("red").log("Photo not found");
+        throw new Error("Photo not found");
 
     }
 }
@@ -55,13 +57,20 @@ const removeTags = (id, tags) => {
     if (photo) {
         photo.tags = photo.tags.filter(tag => !tags.includes(tag));
     }
-}
-
-const getTags = (id) => {
-    const photo = photoes.find(photo => photo.id === id);
-    if (photo) {
-        return photo.tags;
+    else {
+        throw new Error("Photo not found");
     }
 }
 
-export { addPhoto, removePhoto, editPhoto, listPhotos, Photo, getPhotoModel, addTags, removeTags, getTags };
+const getTagsModel = (id) => {
+    const photo = photoes.find(photo => photo.id === id);
+    if (photo) {
+        photo.tags = [...new Set(photo.tags)];
+        return photo.tags;
+    }
+    else {
+        throw new Error("Photo not found");
+    }
+}
+
+export { addPhoto, removePhoto, editPhoto, listPhotos, Photo, getPhotoModel, addTags, removeTags, getTagsModel };
